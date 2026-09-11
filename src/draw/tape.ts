@@ -170,12 +170,12 @@ function drawHole(
 ): void {
   ctx.fillStyle = ink
   ctx.beginPath()
-  ctx.ellipse(x, y, 3.4, 4.2, 0, 0, Math.PI * 2)
+  ctx.ellipse(x, y, 4.1, 5.1, 0, 0, Math.PI * 2)
   ctx.fill()
   ctx.fillStyle = cream
   ctx.globalAlpha = 0.28
   ctx.beginPath()
-  ctx.ellipse(x, y + 1.6, 1.6, 1.1, 0, 0, Math.PI * 2)
+  ctx.ellipse(x, y + 1.8, 1.8, 1.2, 0, 0, Math.PI * 2)
   ctx.fill()
   ctx.globalAlpha = 1
 }

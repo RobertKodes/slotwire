@@ -170,7 +170,7 @@ export function useCircuit() {
     const ac = new AbortController()
     const pool = new RpcPool(rpcEndpoints())
     let lastSlot: number | null = null
-    let lastSlow = performance.now()
+    let lastSlow = performance.now() - 5000
     let lastSig = performance.now() - 3500
     let watchIndex = 0
     let lastNoline = 0
@@ -228,9 +228,9 @@ export function useCircuit() {
           })
 
           if (lastSlot == null || slot !== lastSlot) {
-            if (lastSlot != null && delta > 1) {
-              emit('skip', slot, delta, Math.max(pressure, 0.55), t, {
-                label: delta > 9 ? 'SKIP+' : 'SKIP',
+            if (lastSlot != null && delta >= 5) {
+              emit('skip', slot, delta, Math.max(pressure, 0.55), t - 80, {
+                label: delta > 12 ? 'SKIP+' : 'SKIP',
                 rttMs,
               })
             }

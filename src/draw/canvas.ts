@@ -8,8 +8,6 @@ export function fitCanvas(
   const h = Math.max(1, Math.floor(cssH * dpr))
   if (canvas.width !== w) canvas.width = w
   if (canvas.height !== h) canvas.height = h
-  canvas.style.width = `${cssW}px`
-  canvas.style.height = `${cssH}px`
   const ctx = canvas.getContext('2d')
   if (!ctx) throw new Error('canvas 2d missing')
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0)

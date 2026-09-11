@@ -47,7 +47,7 @@ input {
   position: relative;
   height: 100%;
   display: grid;
-  grid-template-rows: auto minmax(220px, 1fr) 168px auto;
+  grid-template-rows: auto minmax(240px, 1fr) 176px auto;
   gap: 12px;
   padding: 18px 22px 16px;
   background-color: var(--walnut);
@@ -107,9 +107,10 @@ input {
 
 .mast {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: end;
   gap: 16px;
+  min-width: 0;
   padding: 8px 12px 10px;
   border: 1px solid color-mix(in srgb, var(--brass) 45%, transparent);
   background:
@@ -173,13 +174,17 @@ input {
 
 .bench {
   display: grid;
-  grid-template-columns: minmax(280px, 1.15fr) minmax(220px, 0.7fr);
+  grid-template-columns: minmax(0, 1fr) 300px;
   gap: 16px;
   min-height: 0;
+  min-width: 0;
 }
 
 .sounder-well {
+  position: relative;
   min-height: 0;
+  min-width: 0;
+  overflow: hidden;
   background:
     radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--tungsten) 12%, transparent), transparent 55%),
     var(--felt-green);
@@ -188,6 +193,8 @@ input {
 }
 
 .sounder-well canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -202,6 +209,7 @@ input {
   flex-direction: column;
   gap: 7px;
   min-height: 0;
+  min-width: 0;
   overflow: auto;
 }
 
@@ -235,6 +243,13 @@ input {
   color: var(--tungsten);
 }
 
+.hud-ep {
+  font-size: 11px;
+  white-space: normal;
+  word-break: break-all;
+  line-height: 1.25;
+}
+
 .lamp {
   letter-spacing: 0.08em;
 }
@@ -264,6 +279,8 @@ input {
   letter-spacing: 0.14em;
   font-size: 11px;
   cursor: pointer;
+  width: max-content;
+  justify-self: start;
 }
 
 .bakelite.is-off {
@@ -285,14 +302,18 @@ input {
 }
 
 .tape-frame {
+  position: relative;
   height: calc(100% - 18px);
   min-height: 120px;
+  overflow: hidden;
   background: var(--soot);
   border: 2px solid var(--brass-oxide);
   box-shadow: inset 0 0 0 1px var(--brass-deep), 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
 .tape-frame canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -455,12 +476,29 @@ input {
   .desk {
     height: auto;
     min-height: 100%;
-    grid-template-rows: auto 320px 180px auto;
+    grid-template-rows: auto auto 200px auto;
     overflow: visible;
+  }
+
+  .mast {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .mast-circuit {
+    display: none;
+  }
+
+  .mast-titles h1 {
+    font-size: 2.3rem;
   }
 
   .bench {
     grid-template-columns: 1fr;
+    grid-template-rows: minmax(220px, 280px) auto;
+  }
+
+  .hud {
+    max-height: none;
   }
 }
 

@@ -25,14 +25,16 @@ export function PaperTape({ snap, reduced }: Props) {
       if (!running) return
       const s = snapRef.current
       const rect = wrap.getBoundingClientRect()
-      const w = Math.max(320, rect.width)
-      const h = Math.max(140, rect.height)
-      const ctx = fitCanvas(canvas, w, h)
-      const clock = tapeClock(s)
-      const needle =
-        s.strike && performance.now() - s.strike.wall < 90 ? 1 : 0
-      const live = s.mode !== 'idle'
-      drawTape(ctx, w, h, s.events, clock, live, reduced, live ? needle : 0)
+      const w = rect.width
+      const h = rect.height
+      if (w >= 8 && h >= 8) {
+        const ctx = fitCanvas(canvas, w, h)
+        const clock = tapeClock(s)
+        const needle =
+          s.strike && performance.now() - s.strike.wall < 90 ? 1 : 0
+        const live = s.mode !== 'idle'
+        drawTape(ctx, w, h, s.events, clock, live, reduced, live ? needle : 0)
+      }
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)

@@ -31,29 +31,40 @@ export function drawSounder(
   const felt = cssVar('--felt-green', '#243226')
   const ink = cssVar('--ink', '#1c1610')
   const tungsten = cssVar('--tungsten', '#f2c36b')
+  const walnut = cssVar('--walnut', '#2c1a0e')
 
   ctx.clearRect(0, 0, w, h)
+  ctx.fillStyle = felt
+  ctx.fillRect(0, 0, w, h)
 
-  const g = ctx.createRadialGradient(w * 0.45, h * 0.1, 10, w * 0.5, h * 0.55, w * 0.7)
-  g.addColorStop(0, live ? 'rgba(242,195,107,0.16)' : 'rgba(0,0,0,0)')
-  g.addColorStop(1, 'rgba(0,0,0,0)')
+  const g = ctx.createRadialGradient(w * 0.5, h * 0.08, 8, w * 0.5, h * 0.45, Math.max(w, h) * 0.55)
+  g.addColorStop(0, live ? 'rgba(242,195,107,0.20)' : 'rgba(0,0,0,0.08)')
+  g.addColorStop(1, 'rgba(0,0,0,0.22)')
   ctx.fillStyle = g
   ctx.fillRect(0, 0, w, h)
 
-  ctx.fillStyle = felt
-  roundRect(ctx, 18, h - 46, w - 36, 28, 4)
-  ctx.fill()
-  ctx.fillStyle = 'rgba(0,0,0,0.25)'
-  roundRect(ctx, 22, h - 42, w - 44, 8, 2)
+  const dw = Math.min(420, w - 24)
+  const dh = Math.min(280, h - 16)
+  const ox = (w - dw) / 2
+  const oy = (h - dh) / 2
+  ctx.save()
+  ctx.translate(ox, oy)
+
+  ctx.fillStyle = 'rgba(0,0,0,0.28)'
+  roundRect(ctx, 28, dh - 38, dw - 56, 22, 6)
   ctx.fill()
 
-  const bx = 36
-  const by = h - 92
-  const bw = w - 72
-  const bh = 52
+  const bx = 48
+  const by = dh - 86
+  const bw = dw - 96
+  const bh = 58
+  ctx.fillStyle = walnut
+  roundRect(ctx, bx - 8, by + 18, bw + 16, bh - 6, 4)
+  ctx.fill()
+
   const plate = ctx.createLinearGradient(bx, by, bx, by + bh)
   plate.addColorStop(0, brassB)
-  plate.addColorStop(0.35, brass)
+  plate.addColorStop(0.38, brass)
   plate.addColorStop(1, brassO)
   ctx.fillStyle = plate
   roundRect(ctx, bx, by, bw, bh, 5)
@@ -65,42 +76,43 @@ export function drawSounder(
   ctx.fillStyle = brassD
   ctx.font = '11px "Special Elite", serif'
   ctx.textAlign = 'center'
-  ctx.fillText('W.U. CO.  ·  SOUNDER  3-A', bx + bw / 2, by + bh - 10)
+  ctx.fillText('W.U. CO.  ·  SOUNDER  3-A', bx + bw / 2, by + bh - 12)
 
-  drawScrew(ctx, bx + 12, by + 12, brass, brassD)
-  drawScrew(ctx, bx + bw - 12, by + 12, brass, brassD)
-  drawScrew(ctx, bx + 12, by + bh - 22, brass, brassD)
-  drawScrew(ctx, bx + bw - 12, by + bh - 22, brass, brassD)
+  drawScrew(ctx, bx + 14, by + 14, brass, brassD)
+  drawScrew(ctx, bx + bw - 14, by + 14, brass, brassD)
+  drawScrew(ctx, bx + 14, by + bh - 24, brass, brassD)
+  drawScrew(ctx, bx + bw - 14, by + bh - 24, brass, brassD)
 
-  drawCoil(ctx, w * 0.38, h * 0.52, copper, brass, brassD, soot)
-  drawCoil(ctx, w * 0.56, h * 0.52, copper, brass, brassD, soot)
+  const coilY = dh * 0.52
+  drawCoil(ctx, dw * 0.38, coilY, copper, brass, brassD, soot)
+  drawCoil(ctx, dw * 0.58, coilY, copper, brass, brassD, soot)
 
   ctx.strokeStyle = brassO
-  ctx.lineWidth = 5
+  ctx.lineWidth = 6
   ctx.beginPath()
-  ctx.moveTo(w * 0.22, h * 0.62)
-  ctx.lineTo(w * 0.22, h * 0.28)
+  ctx.moveTo(dw * 0.22, dh * 0.62)
+  ctx.lineTo(dw * 0.22, dh * 0.30)
   ctx.stroke()
   ctx.beginPath()
-  ctx.moveTo(w * 0.78, h * 0.62)
-  ctx.lineTo(w * 0.78, h * 0.34)
+  ctx.moveTo(dw * 0.78, dh * 0.62)
+  ctx.lineTo(dw * 0.78, dh * 0.36)
   ctx.stroke()
 
-  const restY = h * 0.275
-  const hitY = h * 0.355
+  const restY = dh * 0.28
+  const hitY = dh * 0.38
   const armY = lerp(restY, hitY, pose)
-  const armX0 = w * 0.18
-  const armX1 = w * 0.82
+  const armX0 = dw * 0.16
+  const armX1 = dw * 0.84
 
   ctx.fillStyle = 'rgba(0,0,0,0.35)'
-  ctx.fillRect(armX0 + 8, armY + 10, armX1 - armX0 - 10, 6)
+  ctx.fillRect(armX0 + 6, armY + 11, armX1 - armX0 - 8, 5)
 
   const armGrad = ctx.createLinearGradient(armX0, armY, armX0, armY + 14)
   armGrad.addColorStop(0, brassB)
   armGrad.addColorStop(0.5, brass)
   armGrad.addColorStop(1, brassO)
   ctx.fillStyle = armGrad
-  roundRect(ctx, armX0, armY, armX1 - armX0, 11, 2)
+  roundRect(ctx, armX0, armY, armX1 - armX0, 12, 2)
   ctx.fill()
   ctx.strokeStyle = brassD
   ctx.lineWidth = 1
@@ -108,67 +120,69 @@ export function drawSounder(
 
   ctx.fillStyle = brassD
   ctx.beginPath()
-  ctx.arc(w * 0.22, armY + 5.5, 5.5, 0, Math.PI * 2)
+  ctx.arc(dw * 0.22, armY + 6, 6, 0, Math.PI * 2)
   ctx.fill()
   ctx.fillStyle = brassB
   ctx.beginPath()
-  ctx.arc(w * 0.22, armY + 5.5, 2.2, 0, Math.PI * 2)
+  ctx.arc(dw * 0.22, armY + 6, 2.3, 0, Math.PI * 2)
   ctx.fill()
 
   ctx.fillStyle = soot
-  roundRect(ctx, armX1 - 22, armY - 3, 20, 16, 2)
+  roundRect(ctx, armX1 - 24, armY - 4, 22, 18, 2)
   ctx.fill()
   ctx.fillStyle = brass
-  ctx.fillRect(armX1 - 16, armY + 2, 8, 6)
+  ctx.fillRect(armX1 - 17, armY + 2, 9, 7)
 
   ctx.fillStyle = brassO
-  roundRect(ctx, w * 0.74, h * 0.40, 28, 10, 2)
+  roundRect(ctx, dw * 0.72, dh * 0.42, 32, 11, 2)
   ctx.fill()
   ctx.fillStyle = brassD
-  ctx.fillRect(w * 0.76, h * 0.385, 6, 8)
-  ctx.fillRect(w * 0.81, h * 0.385, 6, 8)
+  ctx.fillRect(dw * 0.74, dh * 0.4, 7, 9)
+  ctx.fillRect(dw * 0.80, dh * 0.4, 7, 9)
 
-  if (pose > 0.55 && live) {
-    ctx.fillStyle = `rgba(242,195,107,${0.18 + pose * 0.2})`
+  if (pose > 0.5 && live) {
+    ctx.fillStyle = `rgba(242,195,107,${0.16 + pose * 0.22})`
     ctx.beginPath()
-    ctx.arc(armX1 - 12, armY + 14, 16, 0, Math.PI * 2)
+    ctx.arc(armX1 - 12, armY + 16, 18, 0, Math.PI * 2)
     ctx.fill()
     ctx.strokeStyle = tungsten
-    ctx.globalAlpha = 0.35 * pose
+    ctx.globalAlpha = 0.4 * pose
     ctx.lineWidth = 1
     ctx.beginPath()
-    ctx.moveTo(armX1 - 18, armY + 16)
-    ctx.lineTo(armX1 - 6, armY + 22)
+    ctx.moveTo(armX1 - 20, armY + 18)
+    ctx.lineTo(armX1 - 4, armY + 26)
     ctx.stroke()
     ctx.globalAlpha = 1
   }
 
   ctx.fillStyle = brass
   ctx.beginPath()
-  ctx.arc(w * 0.14, h * 0.70, 7, 0, Math.PI * 2)
-  ctx.arc(w * 0.20, h * 0.70, 7, 0, Math.PI * 2)
+  ctx.arc(dw * 0.18, dh * 0.72, 7, 0, Math.PI * 2)
+  ctx.arc(dw * 0.26, dh * 0.72, 7, 0, Math.PI * 2)
   ctx.fill()
   ctx.fillStyle = brassD
   ctx.beginPath()
-  ctx.arc(w * 0.14, h * 0.70, 2.5, 0, Math.PI * 2)
-  ctx.arc(w * 0.20, h * 0.70, 2.5, 0, Math.PI * 2)
+  ctx.arc(dw * 0.18, dh * 0.72, 2.4, 0, Math.PI * 2)
+  ctx.arc(dw * 0.26, dh * 0.72, 2.4, 0, Math.PI * 2)
   ctx.fill()
 
   ctx.strokeStyle = ink
-  ctx.globalAlpha = 0.35
-  ctx.lineWidth = 1.4
+  ctx.globalAlpha = 0.4
+  ctx.lineWidth = 1.5
   ctx.beginPath()
-  ctx.moveTo(w * 0.14, h * 0.70)
-  ctx.lineTo(w * 0.14, h * 0.78)
-  ctx.lineTo(w * 0.38, h * 0.78)
-  ctx.moveTo(w * 0.20, h * 0.70)
-  ctx.lineTo(w * 0.20, h * 0.82)
-  ctx.lineTo(w * 0.56, h * 0.82)
+  ctx.moveTo(dw * 0.18, dh * 0.72)
+  ctx.lineTo(dw * 0.18, dh * 0.8)
+  ctx.lineTo(dw * 0.38, dh * 0.8)
+  ctx.moveTo(dw * 0.26, dh * 0.72)
+  ctx.lineTo(dw * 0.26, dh * 0.84)
+  ctx.lineTo(dw * 0.58, dh * 0.84)
   ctx.stroke()
   ctx.globalAlpha = 1
 
+  ctx.restore()
+
   if (idle) {
-    ctx.fillStyle = 'rgba(16,14,11,0.28)'
+    ctx.fillStyle = 'rgba(16,14,11,0.32)'
     ctx.fillRect(0, 0, w, h)
   }
 }
@@ -183,28 +197,28 @@ function drawCoil(
   soot: string,
 ): void {
   ctx.fillStyle = brassD
-  ctx.fillRect(cx - 22, cy + 28, 44, 8)
+  ctx.fillRect(cx - 24, cy + 30, 48, 8)
   ctx.fillStyle = brass
   ctx.beginPath()
-  ctx.ellipse(cx, cy - 26, 20, 7, 0, 0, Math.PI * 2)
+  ctx.ellipse(cx, cy - 28, 22, 8, 0, 0, Math.PI * 2)
   ctx.fill()
-  const wrap = ctx.createLinearGradient(cx - 20, cy, cx + 20, cy)
+  const wrap = ctx.createLinearGradient(cx - 22, cy, cx + 22, cy)
   wrap.addColorStop(0, '#6a3a16')
   wrap.addColorStop(0.45, copper)
   wrap.addColorStop(1, '#4a2410')
   ctx.fillStyle = wrap
-  ctx.fillRect(cx - 20, cy - 26, 40, 54)
+  ctx.fillRect(cx - 22, cy - 28, 44, 58)
   ctx.strokeStyle = 'rgba(0,0,0,0.28)'
   ctx.lineWidth = 1
-  for (let i = 0; i < 11; i++) {
-    const y = cy - 22 + i * 4.6
+  for (let i = 0; i < 12; i++) {
+    const y = cy - 24 + i * 4.6
     ctx.beginPath()
-    ctx.ellipse(cx, y, 20, 5, 0, 0, Math.PI * 2)
+    ctx.ellipse(cx, y, 22, 5.5, 0, 0, Math.PI * 2)
     ctx.stroke()
   }
   ctx.fillStyle = soot
   ctx.beginPath()
-  ctx.ellipse(cx, cy - 26, 8, 3, 0, 0, Math.PI * 2)
+  ctx.ellipse(cx, cy - 28, 8, 3.2, 0, 0, Math.PI * 2)
   ctx.fill()
 }
 

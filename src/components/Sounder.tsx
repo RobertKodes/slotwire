@@ -35,12 +35,14 @@ export function Sounder({ strike, live, idle, reduced }: Props) {
     const tick = () => {
       if (!running) return
       const rect = wrap.getBoundingClientRect()
-      const w = Math.max(280, rect.width)
-      const h = Math.max(220, rect.height)
-      const ctx = fitCanvas(canvas, w, h)
-      const elapsed = performance.now() - poseAt.current
-      const pose = armaturePose(elapsed, extraRef.current, reduced)
-      drawSounder(ctx, w, h, pose, live, idle)
+      const w = rect.width
+      const h = rect.height
+      if (w >= 8 && h >= 8) {
+        const ctx = fitCanvas(canvas, w, h)
+        const elapsed = performance.now() - poseAt.current
+        const pose = armaturePose(elapsed, extraRef.current, reduced)
+        drawSounder(ctx, w, h, pose, live, idle)
+      }
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)

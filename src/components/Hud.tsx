@@ -23,7 +23,7 @@ export function Hud({ snap, onMute }: Props) {
       </div>
       <div className="hud-row">
         <span>ENDPOINT</span>
-        <b title={snap.endpoint ?? undefined}>{host}</b>
+        <b className="hud-ep" title={snap.endpoint ?? undefined}>{host}</b>
       </div>
       <div className="hud-row">
         <span>SLOT</span>

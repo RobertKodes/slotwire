@@ -16,7 +16,7 @@ Polling stays polite:
 - `getRecentPerformanceSamples` + `getRecentPrioritizationFees` about every 8s for a congestion proxy
 - one rotating `getSignaturesForAddress` about every 7s against a small roster of known programs — that’s how callsigns and failed-tx stamps arrive without pulling a full `getBlock` (those are multi-megabyte on mainnet)
 
-Public endpoints rotate on failure: `api.mainnet-beta.solana.com`, PublicNode, dRPC, Ankr, Llama. Override with `VITE_RPC_URL`. No wallet, no seeds, no trading UI.
+Public endpoints rotate on failure, PublicNode first then `api.mainnet-beta.solana.com`, dRPC, Ankr, Llama. Override with `VITE_RPC_URL`. No wallet, no seeds, no trading UI.
 
 Tape encoding is 5-unit Baudot-ish: slot bits plus extra holes as load rises. SAVE 10s writes JSON; REPLAY scrubs it back through the sounder.
 
